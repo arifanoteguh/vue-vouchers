@@ -31,7 +31,7 @@
                   :disabled="loading"
                   color="primary"
                   @click="loader = 'loading'"
-                  x-small
+                  small
                 >
                   Print
                   <v-icon right >
