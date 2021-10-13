@@ -22,6 +22,12 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "home" */ "../views/ListVouchers.vue"),
       },
+      {
+        path: "/testgql",
+        name: "testgql",
+        component: () =>
+          import(/* webpackChunkName: "home" */ "../components/testgql.vue"),
+      },
     ],
   },
   {
