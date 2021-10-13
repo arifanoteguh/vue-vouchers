@@ -1,46 +1,51 @@
 <template>
-  <div class="home pa-6">
-    <v-simple-table>
-    <template v-slot:default>
-      <thead>
-        <tr>
-          <th class="text-left">
-            Voucher
-          </th>
-          <th class="text-left">
-            Jumlah
-          </th>
-          <th class="text-left">
-            
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="item in desserts"
-          :key="item.name"
-        >
-          <td>{{ item.name }}</td>
-          <td>{{ item.sisa }}</td>
-          <td>
-            <v-btn
-              class="ma-2"
-              :loading="loading"
-              :disabled="loading"
-              color="primary"
-              @click="loader = 'loading'"
+  <v-container>
+    <v-row align="center">
+      <v-col>
+        <v-simple-table>
+        <template v-slot:default>
+          <thead>
+            <tr>
+              <th class="text-left">
+                Voucher
+              </th>
+              <th class="text-left">
+                Jumlah
+              </th>
+              <th class="text-left">
+                
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="item in desserts"
+              :key="item.name"
             >
-              Print
-              <v-icon right >
-                mdi-printer
-              </v-icon>
-            </v-btn>
-          </td>
-        </tr>
-      </tbody>
-    </template>
-  </v-simple-table>
-  </div>
+              <td>{{ item.name }}</td>
+              <td>{{ item.sisa }}</td>
+              <td>
+                <v-btn
+                  class="ma-2"
+                  :loading="loading"
+                  :disabled="loading"
+                  color="primary"
+                  @click="loader = 'loading'"
+                  x-small
+                >
+                  Print
+                  <v-icon right >
+                    mdi-printer
+                  </v-icon>
+                </v-btn>
+              </td>
+            </tr>
+          </tbody>
+        </template>
+        </v-simple-table>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

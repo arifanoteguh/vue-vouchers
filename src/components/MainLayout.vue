@@ -63,6 +63,7 @@
         drawer: null,
         items: [
           { title: 'Voucher', icon: 'mdi-ticket-confirmation', to: '/' },
+          { title: 'Voucher List', icon: 'mdi-ticket-confirmation', to: '/list' },
           { title: 'Logout', icon: 'mdi-logout', to: '/login' }
         ],
       }
