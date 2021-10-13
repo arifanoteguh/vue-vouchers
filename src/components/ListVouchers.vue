@@ -66,6 +66,7 @@
                               :rules="rules"
                               accept=".csv"
                               placeholder="Pilih csv file"
+                              @change="onAddFiles"
                             ></v-file-input>
                           </v-form>
                         </v-card-text>
@@ -93,6 +94,8 @@
 </template>
 
 <script>
+  const papa = require('papaparse');
+
   export default {
     name: 'Home',
     data () {
@@ -135,6 +138,16 @@
         this.loader = null
       },
     },
+    methods: {
+      onAddFiles(files) {
+        papa.parse(files, {
+          header: true,
+          complete: function(results){
+            // console.log(results);
+          }
+        })
+      }
+    }
   }
 </script>
 
