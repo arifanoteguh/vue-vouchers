@@ -66,7 +66,7 @@
                               :rules="rules"
                               accept=".csv"
                               placeholder="Pilih csv file"
-                              @change="onAddFiles"
+                              @change="onAddFile"
                             ></v-file-input>
                           </v-form>
                         </v-card-text>
@@ -76,7 +76,7 @@
                           <v-btn
                             color="primary"
                             text
-                            @click="dialog = false"
+                            @click="uploadVoucher"
                           >
                             Tambah
                           </v-btn>
@@ -90,10 +90,21 @@
         </v-simple-table>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <div v-for="vv in vvouchers" :key="vv.Username">
+          {{vv.Username}}
+          {{vv.Password}}
+          {{vv.Profile}}
+        </div>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
+  import gql from 'graphql-tag';
+
   const papa = require('papaparse');
 
   export default {
@@ -120,9 +131,11 @@
             v7: 20
           }
         ],
+        vvouchers:[],
         rules: [
           value => !value || (value.type == "application/vnd.ms-excel" || value.type == "text/csv") || 'File must be CSV',
         ],
+        file:null,
         loader:null,
         loading5: false,
         dialog: false,
@@ -139,13 +152,49 @@
       },
     },
     methods: {
-      onAddFiles(files) {
-        papa.parse(files, {
+      async addVouchers(vvouchers){
+        console.log("Im at addVouchers")
+        for (let index = 0; index < vvouchers.length; index++) {              
+          console.log("Im at iteration")
+          await this.$apollo.mutate({
+            // Query
+            mutation: gql`
+              mutation($profile: String!, $username: String!, $password: String!){
+                insert_vouchers_vouchers(objects: {password: $password, profile: $profile, username: $username}) {
+                  returning {
+                    created_at
+                    password
+                    profile
+                    uid
+                    username
+                  }
+                }
+              }
+            `,
+            variables: {
+              username: vvouchers[index].Username,
+              password: vvouchers[index].Password,
+              profile: vvouchers[index].Profile,
+            }
+          })
+          console.log("Voucher "+index)
+        }
+        console.log("Im finished");
+        this.file=""
+        this.dialog = false;
+      },
+      uploadVoucher() {
+        var ref = this;
+        this.$papa.parse(this.file, {
           header: true,
           complete: function(results){
-            // console.log(results);
+            this.vvouchers = results.data
+            ref.addVouchers(this.vvouchers)
           }
         })
+      },
+      onAddFile(files) {
+        this.file=files;  
       }
     }
   }

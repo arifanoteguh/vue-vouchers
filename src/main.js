@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
+import VuePapaParse from 'vue-papa-parse'
 
 // Apollo Config
 // import { createProvider } from './vue-apollo';
@@ -26,6 +27,7 @@ const apolloClient = new ApolloClient({
 });
 
 Vue.use(VueApollo);
+Vue.use(VuePapaParse);
 
 const apolloProvider = new VueApollo({
   defaultClient: apolloClient
